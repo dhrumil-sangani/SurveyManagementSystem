@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "tbl_users")
+@Table(name = "users")
 public class User {
 
 	@Id
@@ -21,7 +21,7 @@ public class User {
 	private String status;
 
 	@ManyToMany
-	@JoinTable(name = "tbl_role_user", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@JoinTable(name = "role_user", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
 
 	public Long getId() {

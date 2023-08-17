@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "tbl_survey_questions")
+@Table(name = "survey_questions")
 public class SurveyQuestion {
 
 	@Id

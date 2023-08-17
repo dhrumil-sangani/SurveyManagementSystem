@@ -3,7 +3,7 @@ package com.dev.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tbl_survey_response")
+@Table(name = "survey_response")
 public class SurveyResponse {
 
 	@Id
@@ -24,10 +24,7 @@ public class SurveyResponse {
 	@JoinColumn(name = "question_id")
 	private SurveyQuestion question;
 
-	@ManyToOne
-	@JoinColumn(name = "options_id")
-	private SurveyOption selectedOption;
-
+	private String answer;
 	private String status;
 	private String createdAt;
 	private String updatedAt;
@@ -74,12 +71,12 @@ public class SurveyResponse {
 		this.question = question;
 	}
 
-	public SurveyOption getSelectedOption() {
-		return selectedOption;
+	public String getAnswer() {
+		return answer;
 	}
 
-	public void setSelectedOption(SurveyOption selectedOption) {
-		this.selectedOption = selectedOption;
+	public void setAnswer(String answer) {
+		this.answer = answer;
 	}
 
 	public String getStatus() {
@@ -106,15 +103,16 @@ public class SurveyResponse {
 		this.updatedAt = updatedAt;
 	}
 
-	public SurveyResponse(Long id, Survey survey, User user, String email, SurveyQuestion question,
-			SurveyOption selectedOption, String status, String createdAt, String updatedAt) {
+
+	public SurveyResponse(Long id, Survey survey, User user, String email, SurveyQuestion question, String answer,
+			String status, String createdAt, String updatedAt) {
 		super();
 		this.id = id;
 		this.survey = survey;
 		this.user = user;
 		this.email = email;
 		this.question = question;
-		this.selectedOption = selectedOption;
+		this.answer = answer;
 		this.status = status;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
