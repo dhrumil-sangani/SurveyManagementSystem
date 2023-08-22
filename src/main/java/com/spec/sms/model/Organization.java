@@ -7,21 +7,21 @@ import java.util.List;
 @Table(name = "organizations")
 public class Organization {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private String name;
-    private String description;
-    private String status;
-    private String createdBy;
-    private String updatedBy;
+	private String name;
+	private String description;
+	private String status;
+	private String createdBy;
+	private String updatedBy;
 
-    @OneToMany(mappedBy = "organization")
-    private List<User> users;
+	@OneToMany(mappedBy = "organization")
+	private List<User> users;
 
-    @OneToMany(mappedBy = "organization")
-    private List<Survey> surveys;
+	@OneToMany(mappedBy = "organization")
+	private List<Survey> surveys;
 
     public Organization() {
     	super();
@@ -108,7 +108,7 @@ public class Organization {
 
 
 	
-   
-    
-    
+	
+	
+
 }
