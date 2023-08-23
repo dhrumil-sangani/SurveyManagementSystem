@@ -16,15 +16,23 @@ public class Role {
 
 	@ManyToMany(mappedBy = "roles")
 	private Set<User> users;
+	
 	public Role() {
 		super();
-		
+	}
+	
+	public Role(Long id, String name, String status, Set<User> users) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.status = status;
+		this.users = users;
 	}
 
+	// Getters and setters, constructors, other fields
 	public Long getId() {
 		return id;
 	}
-	// Getters and setters, constructors, other fields
 	
 	public void setId(Long id) {
 		this.id = id;
@@ -54,11 +62,4 @@ public class Role {
 		this.users = users;
 	}
 
-	public Role(Long id, String name, String status, Set<User> users) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.status = status;
-		this.users = users;
-	}
 }
