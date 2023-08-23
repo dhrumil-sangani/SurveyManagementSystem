@@ -7,6 +7,7 @@ import java.util.List;
 @Table(name = "organizations")
 public class Organization {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,11 +17,11 @@ public class Organization {
     private String createdBy;
     private String updatedBy;
 
-    @OneToMany(mappedBy = "organization")
-    private List<User> users;
+	@OneToMany(mappedBy = "organization")
+	private List<User> users;
 
-    @OneToMany(mappedBy = "organization")
-    private List<Survey> surveys;
+	@OneToMany(mappedBy = "organization")
+	private List<Survey> surveys;
 
     public Organization() {
     	super();
@@ -102,5 +103,5 @@ public class Organization {
 
 	public void setSurveys(List<Survey> surveys) {
 		this.surveys = surveys;
-	}       
+	}
 }
