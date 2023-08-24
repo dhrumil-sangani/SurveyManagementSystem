@@ -1,108 +1,42 @@
 package com.spec.surveymanagementsystem.model;
 
 import jakarta.persistence.*;
-
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Date;
 
 @Entity
 @Table(name = "users")
 public class User {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "organization_id")
-	private Organization organization;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-	private String name;
-	private String email;
-	private String password;
-	private String status;
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "user_roles",
-			   joinColumns = @JoinColumn(name = "user_id"), 
-			   inverseJoinColumns = @JoinColumn(name = "role_id")
-	)
-	
-	private Set<Role> roles = new HashSet<>();
+    @Column(name = "mobile_number", nullable = false)
+    private String mobileNumber;
 
+    @Column(name = "password", nullable = false)
+    private String password;
 
-	public User() {
-		super();
+    @Column(name = "status", nullable = false)
+    private boolean status;
 
-	}
-	
-	public User(Long id, Organization organization, String name, String email, String password, String status,
-			Set<Role> roles) {
-		super();
-		this.id = id;
-		this.organization = organization;
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.status = status;
-		this.roles = roles;
-	}
-	
-	// Getters and setters, constructors, other fields
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Column(name = "created_at")
+    private Date createdAt;
 
-	public Organization getOrganization() {
-		return organization;
-	}
+    @Column(name = "created_by")
+    private Long createdBy;
 
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
+    @Column(name = "updated_at")
+    private Date updatedAt;
 
-	public String getName() {
-		return name;
-	}
+    @Column(name = "updated_by")
+    private Long updatedBy;
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-	
+    // Constructors, getters, setters
 }

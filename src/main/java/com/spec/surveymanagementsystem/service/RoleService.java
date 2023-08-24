@@ -15,7 +15,7 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    public Role createRole(String roleName, String status) {
+    public Role createRole(String roleName, boolean status) {
         Role role = new Role();
         role.setName(roleName);
         role.setStatus(status);

@@ -15,7 +15,7 @@ public class PermissionService {
         this.permissionRepository = permissionRepository;
     }
 
-    public Permission createPermission(String permissionName, String status) {
+    public Permission createPermission(String permissionName, boolean status) {
         Permission permission = new Permission();
         permission.setName(permissionName);
         permission.setStatus(status);
