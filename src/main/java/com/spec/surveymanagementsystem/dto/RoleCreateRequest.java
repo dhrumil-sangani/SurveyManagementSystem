@@ -2,7 +2,7 @@ package com.spec.surveymanagementsystem.dto;
 
 public class RoleCreateRequest{
 	private String roleName;
-    private String status;
+    private boolean status;
     
 	public String getRoleName() {
 		return roleName;
@@ -10,10 +10,10 @@ public class RoleCreateRequest{
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
-	public String getStatus() {
+	public boolean getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(boolean status) {
 		this.status = status;
 	}
     
