@@ -1,6 +1,8 @@
 package com.spec.surveymanagementsystem.model;
 
 import jakarta.persistence.*;
+
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -15,7 +17,15 @@ public class Role {
 	private String status;
 
 	@ManyToMany(mappedBy = "roles")
-	private Set<User> users;
+	private Set<User> users = new HashSet<>();
+	
+	 @ManyToMany(fetch = FetchType.EAGER)
+	    @JoinTable(
+	        name = "role_permissions",
+	        joinColumns = @JoinColumn(name = "role_id"),
+	        inverseJoinColumns = @JoinColumn(name = "permission_id")
+	    )
+	    private Set<Permission> permissions = new HashSet<>();
 	
 	public Role() {
 		super();

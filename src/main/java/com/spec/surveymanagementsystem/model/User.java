@@ -1,6 +1,8 @@
 package com.spec.surveymanagementsystem.model;
 
 import jakarta.persistence.*;
+
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -20,15 +22,36 @@ public class User {
 	private String password;
 	private String status;
 
-	@ManyToMany
-	@JoinTable(name = "role_user", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles;
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "user_roles",
+			   joinColumns = @JoinColumn(name = "user_id"), 
+			   inverseJoinColumns = @JoinColumn(name = "role_id")
+	)
+	
+	private Set<Role> roles = new HashSet<>();
 
+
+	public User() {
+		super();
+
+	}
+	
+	public User(Long id, Organization organization, String name, String email, String password, String status,
+			Set<Role> roles) {
+		super();
+		this.id = id;
+		this.organization = organization;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.status = status;
+		this.roles = roles;
+	}
+	
+	// Getters and setters, constructors, other fields
 	public Long getId() {
 		return id;
 	}
-
-	// Getters and setters, constructors, other fields
 	
 	public void setId(Long id) {
 		this.id = id;
@@ -82,22 +105,4 @@ public class User {
 		this.roles = roles;
 	}
 	
-	
-
-	public User(Long id, Organization organization, String name, String email, String password, String status,
-			Set<Role> roles) {
-		super();
-		this.id = id;
-		this.organization = organization;
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.status = status;
-		this.roles = roles;
-	}
-
-	public User() {
-		super();
-
-	}
 }

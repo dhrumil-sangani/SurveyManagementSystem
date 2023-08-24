@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spec.surveymanagementsystem.dto.RoleCreateRequest;
 import com.spec.surveymanagementsystem.model.Role;
 import com.spec.surveymanagementsystem.service.RoleService;
 
@@ -21,8 +22,8 @@ public class RoleController {
     }
 
     @PostMapping("/roles")
-    public Role createRole(@RequestBody String roleName) {
-        return roleService.createRole(roleName);
+    public Role createRole(@RequestBody RoleCreateRequest request) {
+        return roleService.createRole(request.getRoleName(), request.getStatus());
     }
 }
 

@@ -1,13 +1,12 @@
 package com.spec.surveymanagementsystem.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.spec.surveymanagementsystem.model.Role;
 import com.spec.surveymanagementsystem.repository.RoleRepository;
 
+@Service
 public class RoleService {
 	private final RoleRepository roleRepository;
 
@@ -16,9 +15,10 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    public Role createRole(String roleName) {
+    public Role createRole(String roleName, String status) {
         Role role = new Role();
         role.setName(roleName);
+        role.setStatus(status);
         return roleRepository.save(role);
     }
 }
