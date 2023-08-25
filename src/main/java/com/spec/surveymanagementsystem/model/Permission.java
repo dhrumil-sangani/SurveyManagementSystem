@@ -1,11 +1,11 @@
 package com.spec.surveymanagementsystem.model;
 
 import jakarta.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "permissions")
+public class Permission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,15 +13,6 @@ public class User {
 
     @Column(name = "name", nullable = false)
     private String name;
-
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
-
-    @Column(name = "mobile_number", nullable = false)
-    private String mobileNumber;
-
-    @Column(name = "password", nullable = false)
-    private String password;
 
     @Column(name = "status", nullable = false)
     private boolean status;
@@ -39,18 +30,15 @@ public class User {
     private Long updatedBy;
 
     // Constructors, getters, setters
-    public User() {
+    public Permission() {
     	super();
     }
     
-	public User(Long id, String name, String email, String mobileNumber, String password, boolean status,
-			Date createdAt, Long createdBy, Date updatedAt, Long updatedBy) {
+	public Permission(Long id, String name, boolean status, Date createdAt, Long createdBy, Date updatedAt,
+			Long updatedBy) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.email = email;
-		this.mobileNumber = mobileNumber;
-		this.password = password;
 		this.status = status;
 		this.createdAt = createdAt;
 		this.createdBy = createdBy;
@@ -72,30 +60,6 @@ public class User {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getMobileNumber() {
-		return mobileNumber;
-	}
-
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public boolean isStatus() {
@@ -137,5 +101,5 @@ public class User {
 	public void setUpdatedBy(Long updatedBy) {
 		this.updatedBy = updatedBy;
 	}
-	
+	   
 }

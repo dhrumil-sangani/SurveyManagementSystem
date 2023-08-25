@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "survey_response")
-public class SurveyResponse {
+@Table(name = "questions")
+public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,22 +15,23 @@ public class SurveyResponse {
     @JoinColumn(name = "survey_id", referencedColumnName = "id")
     private Survey survey;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @Column(name = "title", nullable = false)
+    private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "question_id", referencedColumnName = "id")
-    private Question question;
+    @Column(name = "type", nullable = false)
+    private String type;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "is_required", nullable = false)
+    private boolean isRequired;
 
-    @Column(name = "answer")
-    private String answer;
+    @Column(name = "status", nullable = false)
+    private boolean status;
 
     @Column(name = "created_at")
     private Date createdAt;
+
+    @Column(name = "created_by")
+    private Long createdBy;
 
     @Column(name = "updated_at")
     private Date updatedAt;
@@ -40,4 +41,3 @@ public class SurveyResponse {
 
     // Constructors, getters, setters
 }
-

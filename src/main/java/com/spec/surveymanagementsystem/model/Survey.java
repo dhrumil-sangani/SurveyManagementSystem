@@ -1,8 +1,9 @@
 package com.spec.surveymanagementsystem.model;
 
 import jakarta.persistence.*;
-
-import java.util.Set;
+import java.util.Date;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "surveys")
@@ -13,30 +14,46 @@ public class Survey {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "organization_id")
+	@JoinColumn(name = "organization_id", referencedColumnName = "id")
 	private Organization organization;
 
 	@ManyToOne
-	@JoinColumn(name = "created_by_user_id")
+	@JoinColumn(name = "created_by", referencedColumnName = "id", nullable = true)
 	private User createdByUser;
 
-	private String title;
-	private String descriptions;
-	private String startDate;
-	private String expirationDate;
-	private String status;
-	private String surveyLink;
-	private String createdAt;
-	private String updatedAt;
+	@ManyToOne
+	@JoinColumn(name = "updated_by", referencedColumnName = "id", nullable = true)
+	private User updatedByUser;
 
-	@OneToMany(mappedBy = "survey")
-	private Set<SurveyQuestion> surveyQuestions;
+	@Column(name = "title", nullable = false)
+	private String title;
+
+	@Column(name = "descriptions", columnDefinition = "text")
+	private String descriptions;
+
+	@Column(name = "start_date", nullable = false)
+	private Date startDate;
+
+	@Column(name = "expiration_date", nullable = false)
+	private Date expirationDate;
+
+	@Column(name = "survey_link", nullable = false)
+	private String surveyLink;
+
+	@Column(name = "status", nullable = false)
+	private boolean status;
+
+	@CreationTimestamp
+	@Column(name = "created_at")
+	private Date createdAt;
+
+	@UpdateTimestamp
+	@Column(name = "updated_at")
+	private Date updatedAt;
 
 	public Long getId() {
 		return id;
 	}
-
-	// Getters and setters
 
 	public void setId(Long id) {
 		this.id = id;
@@ -48,14 +65,6 @@ public class Survey {
 
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
-	}
-
-	public User getCreatedByUser() {
-		return createdByUser;
-	}
-
-	public void setCreatedByUser(User createdByUser) {
-		this.createdByUser = createdByUser;
 	}
 
 	public String getTitle() {
@@ -74,28 +83,20 @@ public class Survey {
 		this.descriptions = descriptions;
 	}
 
-	public String getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(String startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
-	public String getExpirationDate() {
+	public Date getExpirationDate() {
 		return expirationDate;
 	}
 
-	public void setExpirationDate(String expirationDate) {
+	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
 	}
 
 	public String getSurveyLink() {
@@ -106,51 +107,37 @@ public class Survey {
 		this.surveyLink = surveyLink;
 	}
 
-	public String getCreatedAt() {
-		return createdAt;
+	public boolean isStatus() {
+		return status;
 	}
 
-	public void setCreatedAt(String createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public String getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(String updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-	public Set<SurveyQuestion> getSurveyQuestions() {
-		return surveyQuestions;
-	}
-
-	public void setSurveyQuestions(Set<SurveyQuestion> surveyQuestions) {
-		this.surveyQuestions = surveyQuestions;
-	}
-
-	public Survey(Long id, Organization organization, User createdByUser, String title, String descriptions,
-			String startDate, String expirationDate, String status, String surveyLink, String createdAt,
-			String updatedAt, Set<SurveyQuestion> surveyQuestions) {
-		super();
-		this.id = id;
-		this.organization = organization;
-		this.createdByUser = createdByUser;
-		this.title = title;
-		this.descriptions = descriptions;
-		this.startDate = startDate;
-		this.expirationDate = expirationDate;
+	public void setStatus(boolean status) {
 		this.status = status;
-		this.surveyLink = surveyLink;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-		this.surveyQuestions = surveyQuestions;
+	}
+
+
+	public User getCreatedByUser() {
+		return createdByUser;
+	}
+
+	public void setCreatedByUser(User createdByUser) {
+		this.createdByUser = createdByUser;
+	}
+
+
+	public User getUpdatedByUser() {
+		return updatedByUser;
+	}
+
+	public void setUpdatedByUser(User updatedByUser) {
+		this.updatedByUser = updatedByUser;
 	}
 
 	public Survey() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
+	// Constructors, getters, setters
 
 }

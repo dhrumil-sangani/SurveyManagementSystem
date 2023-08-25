@@ -1,4 +1,5 @@
 package com.spec.surveymanagementsystem.controller;
+
 import java.util.*;
 import com.spec.surveymanagementsystem.model.*;
 
@@ -7,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api")
 public class AuthenticationController {
 
-	@GetMapping("/employees")
-	public String hello () {
-	    return "Hello";
+	@GetMapping("/user")
+	public String hello() {
+		return "Hello";
 	}
 }

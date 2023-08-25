@@ -5,12 +5,13 @@ import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "organizations")
 public class Organization {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,35 +19,22 @@ public class Organization {
     @NotNull
     @Size(min = 1, max = 100)
     private String name;
-    private String description;
-    private String status;
-    private String createdBy;
-    private String updatedBy;
 
-	@OneToMany(mappedBy = "organization")
-	private List<User> users;
+    @Column(name = "status", nullable = false)
+    private boolean status;
 
-	@OneToMany(mappedBy = "organization")
-	private List<Survey> surveys;
+    @Column(name = "created_at")
+    private Date createdAt;
 
-    public Organization() {
-    	super();
-    	
-    }
-    public Organization(Long id, String name, String description, String status, String createdBy, String updatedBy,
-			List<User> users, List<Survey> surveys) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.status = status;
-		this.createdBy = createdBy;
-		this.updatedBy = updatedBy;
-		this.users = users;
-		this.surveys = surveys;
-	}
-    // Getters and setters, constructors, other fields
-    
+    @Column(name = "created_by")
+    private Long createdBy;
+
+    @Column(name = "updated_at")
+    private Date updatedAt;
+
+    @Column(name = "updated_by")
+    private Long updatedBy;
+
 	public Long getId() {
 		return id;
 	}
@@ -63,51 +51,52 @@ public class Organization {
 		this.name = name;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getStatus() {
+	public boolean isStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(boolean status) {
 		this.status = status;
 	}
 
-	public String getCreatedBy() {
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Long getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(String createdBy) {
+	public void setCreatedBy(Long createdBy) {
 		this.createdBy = createdBy;
 	}
 
-	public String getUpdatedBy() {
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Long getUpdatedBy() {
 		return updatedBy;
 	}
 
-	public void setUpdatedBy(String updatedBy) {
+	public void setUpdatedBy(Long updatedBy) {
 		this.updatedBy = updatedBy;
 	}
 
-	public List<User> getUsers() {
-		return users;
+	public Organization() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
+    // Constructors, getters, setters
 
-	public List<Survey> getSurveys() {
-		return surveys;
-	}
 
-	public void setSurveys(List<Survey> surveys) {
-		this.surveys = surveys;
-	}
 }
