@@ -6,6 +6,8 @@ import java.util.List;
 
 public class QuestionDTO {
 
+	private Long id; // Include the id field
+
 	@NotBlank
 	private String title;
 
@@ -18,8 +20,14 @@ public class QuestionDTO {
 	private List<String> options;
 
 	// Constructors, getters, setters
-	
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public List<String> getOptions() {
 		return options;

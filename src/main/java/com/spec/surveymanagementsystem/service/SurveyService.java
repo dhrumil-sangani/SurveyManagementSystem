@@ -89,9 +89,6 @@ public class SurveyService {
 		return surveyRepository.findAll();
 	}
 
-	
-	
-	
 	public Survey updateSurvey(Long surveyId, SurveyDTO surveyDTO) throws ResourceNotFoundException {
 		Survey survey = surveyRepository.findById(surveyId)
 				.orElseThrow(() -> new ResourceNotFoundException("Survey not found"));
@@ -144,10 +141,10 @@ public class SurveyService {
 	}
 
 	public void deleteSurvey(Long surveyId) {
-		Survey survey = surveyRepository.findById(surveyId)
-				.orElseThrow(() -> new ResourceNotFoundException("Survey not found"));
+	    Survey survey = surveyRepository.findById(surveyId)
+	            .orElseThrow(() -> new ResourceNotFoundException("Survey not found"));
 
-		surveyRepository.delete(survey);
+	    surveyRepository.delete(survey);
 	}
 
 	public Survey getSurveyById(Long surveyId) {
