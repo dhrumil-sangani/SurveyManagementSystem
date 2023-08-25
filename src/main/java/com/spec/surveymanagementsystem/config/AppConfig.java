@@ -1,5 +1,8 @@
 package com.spec.surveymanagementsystem.config;
 
-public class AppConfig {
 
+
+
+public class AppConfig {
+ 
 }

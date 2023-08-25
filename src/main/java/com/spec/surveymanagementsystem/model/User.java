@@ -29,7 +29,7 @@ public class User {
 	}
 
 	// Getters and setters, constructors, other fields
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -81,7 +81,7 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	
+
 	
 
 	public User(Long id, Organization organization, String name, String email, String password, String status,

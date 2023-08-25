@@ -2,9 +2,17 @@ package com.spec.surveymanagementsystem.dto;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
+import jakarta.validation.constraints.Size;
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Organization {
 
     private Long id; // Unique identifier for the organization
+    @NotNull
+    @Size(min = 1, max = 100)
     private String name; // Name of the organization
     private int status; // Status of the organization
     private LocalDateTime createdAt; // Date and time when the organization was created

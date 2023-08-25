@@ -1,7 +1,11 @@
 package com.spec.surveymanagementsystem.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+
 import java.util.List;
+
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "organizations")
@@ -11,6 +15,8 @@ public class Organization {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull
+    @Size(min = 1, max = 100)
     private String name;
     private String description;
     private String status;
