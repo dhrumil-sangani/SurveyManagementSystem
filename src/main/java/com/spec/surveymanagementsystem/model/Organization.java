@@ -3,11 +3,7 @@ package com.spec.surveymanagementsystem.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
 import java.util.List;
-
-import jakarta.persistence.*;
-
 import java.util.Date;
 
 @Entity

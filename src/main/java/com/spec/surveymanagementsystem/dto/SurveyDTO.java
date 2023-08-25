@@ -6,10 +6,19 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 public class SurveyDTO {
 
-    @NotBlank
+    public List<QuestionDTO> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(List<QuestionDTO> questions) {
+		this.questions = questions;
+	}
+
+	@NotBlank
     private String title;
 
     private String descriptions;
@@ -32,6 +41,8 @@ public class SurveyDTO {
     
     @NotNull
     private Long UserId;
+    
+    private List<QuestionDTO> questions;
     
     
 	public String getTitle() {

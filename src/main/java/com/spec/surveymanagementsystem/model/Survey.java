@@ -1,7 +1,11 @@
 package com.spec.surveymanagementsystem.model;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -25,6 +29,9 @@ public class Survey {
 	@JoinColumn(name = "updated_by", referencedColumnName = "id", nullable = true)
 	private User updatedByUser;
 
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Question> questions = new ArrayList<>();
+	
 	@Column(name = "title", nullable = false)
 	private String title;
 
