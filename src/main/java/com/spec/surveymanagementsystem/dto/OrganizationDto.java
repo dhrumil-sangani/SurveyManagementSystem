@@ -8,13 +8,29 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 import jakarta.validation.constraints.Size;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class Organization {
+public class OrganizationDto {
 
     private Long id; // Unique identifier for the organization
     @NotNull
     @Size(min = 1, max = 100)
     private String name; // Name of the organization
-    private int status; // Status of the organization
+    @Size(min = 4, max = 500)
+    private String description; // Name of the organization
+    /**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	private boolean status; // Status of the organization
     private LocalDateTime createdAt; // Date and time when the organization was created
     private String createdBy; // User who created the organization
     private LocalDateTime updatedAt; // Date and time when the organization was last updated
@@ -24,12 +40,12 @@ public class Organization {
     // You can generate these using your IDE or manually implement them.
 
     // Default constructor
-    public Organization() {
+    public OrganizationDto() {
         // Default constructor
     }
 
     // Parameterized constructor to initialize all fields
-    public Organization(Long id, String name, int status, LocalDateTime createdAt,
+    public OrganizationDto(Long id, String name, boolean status, LocalDateTime createdAt,
                            String createdBy, LocalDateTime updatedAt, String updatedBy) {
         this.id = id;
         this.name = name;
@@ -63,12 +79,12 @@ public class Organization {
     }
 
     // Getter for status
-    public int getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
     // Setter for status
-    public void setStatus(int status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 

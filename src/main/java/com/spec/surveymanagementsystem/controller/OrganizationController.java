@@ -2,7 +2,6 @@ package com.spec.surveymanagementsystem.controller;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spec.surveymanagementsystem.config.RestResponse;
+import com.spec.surveymanagementsystem.dto.OrganizationDto;
 import com.spec.surveymanagementsystem.model.*;
 import com.spec.surveymanagementsystem.repository.OrganizationRepository;
-import com.spec.surveymanagementsystem.service.*;
+import com.spec.surveymanagementsystem.service.OrganizationService;
 
 import jakarta.validation.Valid;
 
@@ -30,149 +31,184 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/v1")
 public class OrganizationController {
-	@Autowired
-	private OrganizationRepository organizationRepository;
+	private OrganizationService organizationService;
 
+    @Autowired
+    public OrganizationController(OrganizationService organizationService) {
+        this.organizationService = organizationService;
+    }
 	// This method use for create organization
-	@PostMapping(value = "/organization")
+	@PostMapping("/organization")
 	@ResponseBody
-	public ResponseEntity<Object> getOrganization(@Valid @RequestBody Organization organization) {
+	public ResponseEntity<RestResponse<Organization>> createOrganization(@Valid @RequestBody OrganizationDto organizationDto) {
 		try {
-			// Save the organization
-			Organization savedOrganization = organizationRepository.save(organization);
+			 // Save the organization
+	        Organization savedOrganization = organizationService.createOrganization(organizationDto);
 
-			// Return a success response with the saved organization and HTTP status 201
-			// (Created)
-			return ResponseEntity.status(HttpStatus.CREATED).body(savedOrganization);
-		} catch (Exception e) {
-			// Log the exception
-			e.printStackTrace();
+	        // Create a success response
+	        RestResponse<Organization> response = new RestResponse<>();
+	        response.setStatus(HttpStatus.CREATED.value());
+	        response.setMessage("Organization created successfully");
+	        response.setData(savedOrganization);
 
-			// Return an error response with a meaningful error message and HTTP status 500
-			// (Internal Server Error)
-			String errorMessage = "Failed to create organization. Please check your input and try again.";
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
-		}
+	        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	    } catch (Exception e) {
+	        // Handle exceptions
+	        return (ResponseEntity<RestResponse<Organization>>) handleException(e);
+	    }
 	}
 
-	// This method use for get all organization
-	@GetMapping(value = "/organization")
+	//This method use for get all organization
+	@GetMapping("/organizations")
 	@ResponseBody
-	public ResponseEntity<Object> getAllOrganizations() {
-		try {
-			// Retrieve the list of organizations from the repository
-			List<Organization> organizations = organizationRepository.findAll();
+	public ResponseEntity<RestResponse<List<Organization>>> getAllOrganizations() {
+	    try {
+	        // Retrieve the list of organizations from the service
+	        List<Organization> organizations = organizationService.getAllOrganizations();
+	        
+	        // Create a success response
+	        RestResponse<List<Organization>> response = new RestResponse<>();
+	        response.setStatus(HttpStatus.OK.value());
+	        response.setMessage("Organizations retrieved successfully");
+	        response.setData(organizations);
 
-			// Return a success response with the list of organizations and HTTP status 200
-			// (OK)
-			return ResponseEntity.status(HttpStatus.OK).body(organizations);
-		} catch (Exception e) {
-			// Log the exception
-			e.printStackTrace();
-
-			// Return an error response with a meaningful error message and HTTP status 500
-			// (Internal Server Error)
-			String errorMessage = "Failed to retrieve organizations. Please try again later.";
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
-		}
+	        return ResponseEntity.status(HttpStatus.OK).body(response);
+	    } catch (Exception e) {
+	        // Log the exception
+	        e.printStackTrace();
+	        
+	        // Handle exceptions and return an error response with a meaningful error message
+	        RestResponse<List<Organization>> errorResponse = new RestResponse<>();
+	        errorResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+	        errorResponse.setMessage("Failed to retrieve organizations. Please try again later.");
+	        
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+	    }
 	}
-
 	// This method use for get organization by id
-	@GetMapping(value = "/organization/{id}")
+	@GetMapping("/organization/{id}")
 	@ResponseBody
-	public ResponseEntity<Object> getOrganizationById(@PathVariable Long id) {
-		try {
-			// Attempt to find the organization by its ID
-			Optional<Organization> organization = organizationRepository.findById(id);
+	public ResponseEntity<RestResponse<Organization>> getOrganizationById(@PathVariable Long id) {
+	    try {
+	        // Attempt to find the organization by its ID
+	        Optional<Organization> organization = organizationService.getOrganizationById(id);
 
-			// Check if the organization exists
-			if (organization.isPresent()) {
-				// Return a success response with the organization and HTTP status 200 (OK)
-				return ResponseEntity.status(HttpStatus.OK).body(organization.get());
-			} else {
-				// Return a 404 (Not Found) response with an error message
-				String errorMessage = "Organization with ID " + id + " not found.";
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
-			}
-		} catch (Exception e) {
-			// Log the exception
-			e.printStackTrace();
+	        // Check if the organization exists
+	        if (organization.isPresent()) {
+	            // Create a success response
+	            RestResponse<Organization> response = new RestResponse<>();
+	            response.setStatus(HttpStatus.OK.value());
+	            response.setMessage("Organization retrieved successfully");
+	            response.setData(organization.get()); // Extract the organization from Optional
 
-			// Return an error response with a meaningful error message and HTTP status 500
-			// (Internal Server Error)
-			String errorMessage = "Failed to retrieve organization. Please try again later.";
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
-		}
+	            // Return a success response with the organization and HTTP status 200 (OK)
+	            return ResponseEntity.status(HttpStatus.OK).body(response);
+	        } else {
+	            // Return a 404 (Not Found) response with an error message
+	            RestResponse<Organization> errorResponse = new RestResponse<>();
+	            errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
+	            errorResponse.setMessage("Organization with ID " + id + " not found.");
+	            
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+	        }
+	    } catch (Exception e) {
+	        // Log the exception
+	        e.printStackTrace();
+
+	        // Handle exceptions and return an error response with a meaningful error message
+	        RestResponse<Organization> errorResponse = new RestResponse<>();
+	        errorResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+	        errorResponse.setMessage("Failed to retrieve organization. Please try again later.");
+
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+	    }
 	}
-
 	// This method use for update organization
-	@PutMapping(value = "/organization/{id}")
+	@PutMapping("/organization/{id}")
 	@ResponseBody
-	public ResponseEntity<Object> updateOrganization(@PathVariable Long id,
-			@Valid @RequestBody Organization updatedOrganization) {
-		try {
-			// Check if the organization with the given ID exists
-			Optional<Organization> existingOrganizationOptional = organizationRepository.findById(id);
+	public ResponseEntity<RestResponse<Organization>> updateOrganization(@PathVariable Long id, @Valid @RequestBody Organization updatedOrganization) {
+	    try {
+	        Optional<Organization> existingOrganizationOptional = organizationService.updateOrganization(id, updatedOrganization);
 
-			if (existingOrganizationOptional.isPresent()) {
-				// Get the existing organization
-				Organization existingOrganization = existingOrganizationOptional.get();
+	        if (existingOrganizationOptional.isPresent()) {
+	            Organization updated = existingOrganizationOptional.get();
 
-				// Update the existing organization with the new data
-				existingOrganization.setName(updatedOrganization.getName());
-				existingOrganization.setDescription(updatedOrganization.getDescription());
+	            // Create a success response
+	            RestResponse<Organization> response = new RestResponse<>();
+	            response.setStatus(HttpStatus.OK.value());
+	            response.setMessage("Organization updated successfully");
+	            response.setData(updated);
 
-				// Save the updated organization
-				Organization updated = organizationRepository.save(existingOrganization);
+	            // Return a success response with the updated organization and HTTP status 200 (OK)
+	            return ResponseEntity.status(HttpStatus.OK).body(response);
+	        } else {
+	            // Return a 404 (Not Found) response with an error message
+	            RestResponse<Organization> errorResponse = new RestResponse<>();
+	            errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
+	            errorResponse.setMessage("Organization not found.");
 
-				// Return a success response with the updated organization and HTTP status 200
-				// (OK)
-				return ResponseEntity.status(HttpStatus.OK).body(updated);
-			} else {
-				// Return a 404 (Not Found) response with an error message
-				String errorMessage = "Organization with ID " + id + " not found.";
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
-			}
-		} catch (Exception e) {
-			// Log the exception
-			e.printStackTrace();
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+	        }
+	    } catch (Exception e) {
+	        // Log the exception
+	        e.printStackTrace();
 
-			// Return an error response with a meaningful error message and HTTP status 500
-			// (Internal Server Error)
-			String errorMessage = "Failed to update organization. Please try again later.";
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
-		}
+	        // Handle exceptions and return an error response with a meaningful error message
+	        RestResponse<Organization> errorResponse = new RestResponse<>();
+	        errorResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+	        errorResponse.setMessage("Failed to update organization. Please try again later.");
+
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+	    }
 	}
+
 	
-	// This method use for delete organization
+	// This controller method to delete organization
 	@DeleteMapping(value = "/organization/{id}")
 	@ResponseBody
-	public ResponseEntity<Object> deleteOrganization(@PathVariable Long id) {
-		try {
-			// Check if the organization with the given ID exists
-			Optional<Organization> organizationOptional = organizationRepository.findById(id);
+	public ResponseEntity<RestResponse<String>> deleteOrganization(@PathVariable Long id) {
+	    try {
+	        // Check if the organization with the given ID exists and delete it
+	        boolean isDeleted = organizationService.deleteOrganization(id);
 
-			if (organizationOptional.isPresent()) {
-				// If the organization exists, delete it
-				organizationRepository.deleteById(id);
+	        if (isDeleted) {
+	            // Create a success response
+	            RestResponse<String> response = new RestResponse<>();
+	            response.setStatus(HttpStatus.OK.value());
+	            response.setMessage("Organization with ID " + id + " has been deleted.");
 
-				// Return a success response with a message and HTTP status 204 (No Content)
-				String successMessage = "Organization with ID " + id + " has been deleted.";
-				return ResponseEntity.status(HttpStatus.OK).body(successMessage);
-			} else {
-				// Return a 404 (Not Found) response with an error message
-				String errorMessage = "Organization with ID " + id + " not found.";
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
-			}
-		} catch (Exception e) {
-			// Log the exception
-			e.printStackTrace();
+	            return ResponseEntity.status(HttpStatus.OK).body(response);
+	        } else {
+	            // Return a 404 (Not Found) response with an error message
+	            RestResponse<String> errorResponse = new RestResponse<>();
+	            errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
+	            errorResponse.setMessage("Organization with ID " + id + " not found.");
 
-			// Return an error response with a meaningful error message and HTTP status 500
-			// (Internal Server Error)
-			String errorMessage = "Failed to delete organization. Please try again later.";
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
-		}
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+	        }
+	    } catch (Exception e) {
+	        // Log the exception
+	        e.printStackTrace();
 
+	        // Handle exceptions and return an error response with a meaningful error message
+	        RestResponse<String> errorResponse = new RestResponse<>();
+	        errorResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+	        errorResponse.setMessage("Failed to delete organization. Please try again later.");
+
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+	    }
+	}
+
+	// This method use for handle exceptiona
+	private ResponseEntity<?> handleException(Exception e) {
+	    // Log the exception
+	    e.printStackTrace();
+
+	    // Create an error response
+	    RestResponse<?> response = new RestResponse<>();
+	    response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+	    response.setMessage("An error occurred. Please try again later.");
+
+	    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 	}
 }
