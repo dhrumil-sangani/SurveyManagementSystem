@@ -2,6 +2,7 @@ package com.spec.surveymanagementsystem.model;
 
 import jakarta.persistence.*;
 import java.sql.Date;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -37,14 +38,22 @@ public class User {
 
     @Column(name = "updated_by")
     private Long updatedBy;
+    
+    @ManyToMany
+    @JoinTable(name = "user_roles",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
 
     // Constructors, getters, setters
-    public User() {
-    	super();
-    }
-    
+	
+	public User() {
+		super();
+	}
+
 	public User(Long id, String name, String email, String mobileNumber, String password, boolean status,
-			Date createdAt, Long createdBy, Date updatedAt, Long updatedBy) {
+			Date createdAt, Long createdBy, Date updatedAt, Long updatedBy, Set<Role> roles) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -56,6 +65,7 @@ public class User {
 		this.createdBy = createdBy;
 		this.updatedAt = updatedAt;
 		this.updatedBy = updatedBy;
+		this.roles = roles;
 	}
 
 	public Long getId() {
@@ -136,6 +146,14 @@ public class User {
 
 	public void setUpdatedBy(Long updatedBy) {
 		this.updatedBy = updatedBy;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 	
 }
