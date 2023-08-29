@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.spec.surveymanagementsystem.dto.RoleCreateRequest;
+import com.spec.surveymanagementsystem.dto.RoleDto;
 import com.spec.surveymanagementsystem.model.Role;
 import com.spec.surveymanagementsystem.service.RoleService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -21,9 +23,9 @@ public class RoleController {
         this.roleService = roleService;
     }
 
-    @PostMapping("/roles")
-    public Role createRole(@RequestBody RoleCreateRequest request) {
-        return roleService.createRole(request.getRoleName(), request.getStatus());
+    @PostMapping("/create-role")
+    public Role createRole(@Valid @RequestBody RoleDto request) {
+        return roleService.createRole(request.getName(), request.getStatus());
     }
 }
 

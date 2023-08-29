@@ -1,14 +1,14 @@
 package com.spec.surveymanagementsystem.dto;
 
-public class RoleCreateRequest{
-	private String roleName;
+public class RoleDto {
+	private String name;
     private boolean status;
     
-	public String getRoleName() {
-		return roleName;
+	public String getName() {
+		return name;
 	}
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public boolean getStatus() {
 		return status;
@@ -16,6 +16,4 @@ public class RoleCreateRequest{
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-    
-    
 }
