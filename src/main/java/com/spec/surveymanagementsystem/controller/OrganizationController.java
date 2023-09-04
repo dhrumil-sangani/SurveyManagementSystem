@@ -31,7 +31,10 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/v1")
 public class OrganizationController {
+
+	@Autowired
 	private OrganizationService organizationService;
+	// private OrganizationRepository organizationRepository; 
 
     @Autowired
     public OrganizationController(OrganizationService organizationService) {

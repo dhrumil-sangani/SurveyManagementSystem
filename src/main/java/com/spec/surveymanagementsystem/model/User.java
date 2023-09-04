@@ -53,7 +53,7 @@ public class User {
 	}
 
 	public User(Long id, String name, String email, String mobileNumber, String password, boolean status,
-			Date createdAt, Long createdBy, Date updatedAt, Long updatedBy, Set<Role> roles) {
+			Date createdAt, Long createdBy, Date updatedAt, Long updatedBy) {
 		super();
 		this.id = id;
 		this.name = name;
