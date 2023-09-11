@@ -46,7 +46,7 @@ public class OrganizationController {
 	public ResponseEntity<RestResponse<Organization>> createOrganization(@Valid @RequestBody OrganizationDto organizationDto) {
 		try {
 			 // Save the organization
-	        Organization savedOrganization = organizationService.createOrganization(organizationDto);
+	        Organization savedOrganization = organizationService.createOrganization(organizationDto); 
 
 	        // Create a success response
 	        RestResponse<Organization> response = new RestResponse<>();

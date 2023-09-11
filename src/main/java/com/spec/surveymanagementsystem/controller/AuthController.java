@@ -47,7 +47,7 @@ public class AuthController {
 	@Consumes({ MediaType.APPLICATION_JSON })
     public ResponseEntity<CustomResponse> login(@RequestBody JwtRequest request) {
     	
-        this.doAuthenticate(request.getEmail(), request.getPassword());
+        this.doAuthenticate(request.getEmail(), request.getPassword()); 
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
         String token = this.helper.generateToken(userDetails);
@@ -55,7 +55,7 @@ public class AuthController {
         CustomResponse response = new CustomResponse();
         response.setStatus(200);
         response.setMessage("Login Successfully");
-        response.setData(new JwtResponse(token,userDetails.getUsername()));
+        response.setData(new JwtResponse(token,userDetails));
         
         return ResponseEntity.ok(response);
          
@@ -77,13 +77,13 @@ public class AuthController {
     	CustomResponse response = new CustomResponse();
         response.setStatus(401);
         response.setMessage("Credentials Invalid !!");
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(response); 
     }
     
-    @Produces(MediaType.APPLICATION_JSON)
-	@Consumes({ MediaType.APPLICATION_JSON })
-    @PostMapping("/create-user")
-    public DummyUser createUser(@RequestBody DummyUser dummyUser) {
-    	return userService.createUser(dummyUser);
-    }
+//    @Produces(MediaType.APPLICATION_JSON)
+//	@Consumes({ MediaType.APPLICATION_JSON })
+//    @PostMapping("/create-user")
+//    public DummyUser createUser(@RequestBody DummyUser dummyUser) {
+//    	return userService.createUser(dummyUser);
+//    }
 }
