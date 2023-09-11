@@ -44,7 +44,7 @@ public class SecurityConfig {
 	    	.cors(cors->cors.configurationSource(corsConfigurationSource()))
 	    	.authorizeHttpRequests(auth->auth.requestMatchers("/api/v1/**")
 	    			.authenticated()
-	    			.requestMatchers("/auth/login").permitAll().requestMatchers("/auth/create-user").permitAll().anyRequest().authenticated())
+	    			.requestMatchers("/auth/login").permitAll().anyRequest().authenticated())
 	    	.exceptionHandling(ex->ex.authenticationEntryPoint(jwtAuthenticationEntryPoint()))
 	    	.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
        

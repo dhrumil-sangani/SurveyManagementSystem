@@ -1,32 +1,72 @@
 package com.spec.surveymanagementsystem.service;
 
+import java.sql.Timestamp;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.spec.surveymanagementsystem.model.DummyUser;
-import com.spec.surveymanagementsystem.repository.DummyUserRepository;
+import com.spec.surveymanagementsystem.model.User;
+import com.spec.surveymanagementsystem.model.Organization;
 import com.spec.surveymanagementsystem.repository.UserRepository;
 
 @Service
 public class UserService {
-	private List<DummyUser> store = new ArrayList<>();
+	private List<User> store = new ArrayList<>();
 	
 	@Autowired
-	private DummyUserRepository dummyUserRepository;
+	private UserRepository userRepository;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder; 
+
+    /**
+	 * @author Spec developer
+	 * This method use for get all user
+	 */
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 	
-	public List<DummyUser> getUser() {
-		return dummyUserRepository.findAll();
-	}
-	
-	public DummyUser createUser(DummyUser dummyUser) {
-		dummyUser.setUserId(UUID.randomUUID().toString());
+    //  This service method use for create User
+	public User createUser(User dummyUser) {
+		
 		dummyUser.setPassword(passwordEncoder.encode(dummyUser.getPassword()));
-		return dummyUserRepository.save(dummyUser);
+		dummyUser.setStatus(dummyUser.getStatus());
+		Date date = new Date();  
+		Timestamp ts=new Timestamp(date.getTime());  
+		dummyUser.setCreatedAt(ts);
+		
+		return userRepository.save(dummyUser);
 	}
+
+	//  This service method use for update User
+	public Optional<User> updateUser(Long id, User updatedUser) {
+	      Optional<User> existingUserOptional = userRepository.findById(id);
+	
+	      if (existingUserOptional.isPresent()) {
+	    	  User existingUser = existingUserOptional.get();
+	    	  existingUser.setName(updatedUser.getName());
+	    	  existingUser.setMobileNumber(updatedUser.getMobileNumber());
+	    	  Date date = new Date();  
+	    	  Timestamp ts=new Timestamp(date.getTime());  
+	    	  existingUser.setUpdatedAt(ts);
+	          return Optional.of(userRepository.save(existingUser));
+	      } else {
+	          return Optional.empty(); // Indicate that the user was not found
+	      }
+	}
+	
+	//  This service method use for delete user
+    public boolean deleteUser(Long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+
+        if (userOptional.isPresent()) {
+        	userRepository.deleteById(id);
+            return true;
+        } else {
+            return false; // Indicate that the user was not found
+        }
+    }
 }

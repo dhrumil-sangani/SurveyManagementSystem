@@ -3,12 +3,12 @@ package com.spec.surveymanagementsystem.model;
 public class JwtResponse {
 
 	private String jwtToken;
-	private String username;
+	private Object user;
 	
-	public JwtResponse(String jwtToken, String username) {
+	public JwtResponse(String jwtToken, Object user) {
 		super();
 		this.jwtToken = jwtToken;
-		this.username = username;
+		this.user = user;
 	}
 	public String getJwtToken() {
 		return jwtToken;
@@ -16,10 +16,10 @@ public class JwtResponse {
 	public void setJwtToken(String jwtToken) {
 		this.jwtToken = jwtToken;
 	}
-	public String getUsername() {
-		return username;
+	public Object getUser() {
+		return user;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUser(Object user) {
+		this.user = user;
 	}
 }

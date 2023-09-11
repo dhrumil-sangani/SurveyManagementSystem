@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.spec.surveymanagementsystem.config.RestResponse;
 import com.spec.surveymanagementsystem.dto.OrganizationDto;
 import com.spec.surveymanagementsystem.model.CustomListResponse;
-import com.spec.surveymanagementsystem.model.DummyUser;
-import com.spec.surveymanagementsystem.model.Organization;
+import com.spec.surveymanagementsystem.model.User;
+
 import com.spec.surveymanagementsystem.service.UserService;
 
 import jakarta.validation.Valid;
@@ -40,13 +40,13 @@ public class UserController {
 	// This method use for create user
 	@PostMapping("/create-user")
 	@ResponseBody
-	public ResponseEntity<RestResponse<DummyUser>> createUser(@Valid @RequestBody DummyUser organizationDto) {
+	public ResponseEntity<RestResponse<User>> createUser(@Valid @RequestBody User userDto) {
 		try {
 			 // Save the user
-			DummyUser savedUser = userService.createUser(organizationDto); 
+			User savedUser = userService.createUser(userDto); 
 
 	        // Create a success response
-	        RestResponse<DummyUser> response = new RestResponse<>();
+	        RestResponse<User> response = new RestResponse<>();
 	        response.setStatus(HttpStatus.CREATED.value());
 	        response.setMessage("User created successfully");
 	        response.setData(savedUser);
@@ -54,20 +54,20 @@ public class UserController {
 	        return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	    } catch (Exception e) {
 	        // Handle exceptions
-	        return (ResponseEntity<RestResponse<DummyUser>>) handleException(e);
+	        return (ResponseEntity<RestResponse<User>>) handleException(e);
 	    }
 	}
 	
 	//This method use for get all users
 	@GetMapping("/users")
 	@ResponseBody
-	public ResponseEntity<RestResponse<List<DummyUser>>> getAllUsers() {
+	public ResponseEntity<RestResponse<List<User>>> getAllUsers() {
 	    try {
 	        // Retrieve the list of Users from the service
-	        List<DummyUser> users = userService.getAllUsers();
+	        List<User> users = userService.getAllUsers();
 	        
 	        // Create a success response
-	        RestResponse<List<DummyUser>> response = new RestResponse<>();
+	        RestResponse<List<User>> response = new RestResponse<>();
 	        response.setStatus(HttpStatus.OK.value());
 	        response.setMessage("Users retrieved successfully");
 	        response.setData(users);
@@ -78,7 +78,7 @@ public class UserController {
 	        e.printStackTrace();
 	        
 	        // Handle exceptions and return an error response with a meaningful error message
-	        RestResponse<List<DummyUser>> errorResponse = new RestResponse<>();
+	        RestResponse<List<User>> errorResponse = new RestResponse<>();
 	        errorResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 	        errorResponse.setMessage("Failed to retrieve Users. Please try again later.");
 	        
@@ -89,15 +89,15 @@ public class UserController {
 	// This method use for update user
 	@PutMapping("/user/{id}")
 	@ResponseBody
-	public ResponseEntity<RestResponse<DummyUser>> updateUsers(@PathVariable Long id, @Valid @RequestBody DummyUser updatedUser) {
+	public ResponseEntity<RestResponse<User>> updateUsers(@PathVariable Long id, @Valid @RequestBody User updatedUser) {
 	    try {
-	        Optional<DummyUser> existingUserOptional = userService.updateUser(id, updatedUser);
+	        Optional<User> existingUserOptional = userService.updateUser(id, updatedUser);
 
 	        if (existingUserOptional.isPresent()) {
-	        	DummyUser updated = existingUserOptional.get();
+	        	User updated = existingUserOptional.get();
 
 	            // Create a success response
-	            RestResponse<DummyUser> response = new RestResponse<>();
+	            RestResponse<User> response = new RestResponse<>();
 	            response.setStatus(HttpStatus.OK.value());
 	            response.setMessage("User updated successfully");
 	            response.setData(updated);
@@ -106,7 +106,7 @@ public class UserController {
 	            return ResponseEntity.status(HttpStatus.OK).body(response);
 	        } else {
 	            // Return a 404 (Not Found) response with an error message
-	            RestResponse<DummyUser> errorResponse = new RestResponse<>();
+	            RestResponse<User> errorResponse = new RestResponse<>();
 	            errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
 	            errorResponse.setMessage("User not found.");
 
@@ -117,7 +117,7 @@ public class UserController {
 	        e.printStackTrace();
 
 	        // Handle exceptions and return an error response with a meaningful error message
-	        RestResponse<DummyUser> errorResponse = new RestResponse<>();
+	        RestResponse<User> errorResponse = new RestResponse<>();
 	        errorResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
 	        errorResponse.setMessage("Failed to update user. Please try again later.");
 

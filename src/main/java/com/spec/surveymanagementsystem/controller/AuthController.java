@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spec.surveymanagementsystem.model.CustomResponse;
-import com.spec.surveymanagementsystem.model.DummyUser;
+import com.spec.surveymanagementsystem.model.User;
 import com.spec.surveymanagementsystem.model.JwtRequest;
 import com.spec.surveymanagementsystem.model.JwtResponse;
 import com.spec.surveymanagementsystem.repository.UserRepository;
