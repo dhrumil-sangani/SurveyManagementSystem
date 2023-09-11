@@ -15,7 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "dummy_users")
+@Table(name = "users")
 
 public class User implements UserDetails {
 	public User() {

@@ -137,14 +137,14 @@ public class UserController {
 	            // Create a success response
 	            RestResponse<String> response = new RestResponse<>();
 	            response.setStatus(HttpStatus.OK.value());
-	            response.setMessage("user with ID " + id + " has been deleted.");
+	            response.setMessage("User has been deleted.");
 
 	            return ResponseEntity.status(HttpStatus.OK).body(response);
 	        } else {
 	            // Return a 404 (Not Found) response with an error message
 	            RestResponse<String> errorResponse = new RestResponse<>();
 	            errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
-	            errorResponse.setMessage("user with ID " + id + " not found.");
+	            errorResponse.setMessage("user not found.");
 
 	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
 	        }
