@@ -10,40 +10,40 @@ import java.util.List;
 @Table(name = "questions")
 public class Question {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<QuestionOption> options = new ArrayList<>();
-    
-    @ManyToOne
-    @JoinColumn(name = "survey_id", referencedColumnName = "id")
-    private Survey survey;
+	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<QuestionOption> options = new ArrayList<>();
 
-    @Column(name = "title", nullable = false)
-    private String title;
+	@ManyToOne
+	@JoinColumn(name = "survey_id", referencedColumnName = "id")
+	private Survey survey;
 
-    @Column(name = "type", nullable = false)
-    private String type;
+	@Column(name = "title", nullable = false)
+	private String title;
 
-    @Column(name = "is_required", nullable = false)
-    private boolean isRequired;
+	@Column(name = "type", nullable = false)
+	private String type;
 
-    @Column(name = "status", nullable = false)
-    private boolean status;
+	@Column(name = "is_required", nullable = false)
+	private boolean isRequired;
 
-    @Column(name = "created_at")
-    private Date createdAt;
+	@Column(name = "status", nullable = false)
+	private boolean status;
 
-    @Column(name = "created_by")
-    private Long createdBy;
+	@Column(name = "created_at")
+	private Date createdAt;
 
-    @Column(name = "updated_at")
-    private Date updatedAt;
+	@Column(name = "created_by")
+	private Long createdBy;
 
-    @Column(name = "updated_by")
-    private Long updatedBy;
+	@Column(name = "updated_at")
+	private Date updatedAt;
+
+	@Column(name = "updated_by")
+	private Long updatedBy;
 
 	public Long getId() {
 		return id;
@@ -130,7 +130,6 @@ public class Question {
 		// TODO Auto-generated constructor stub
 	}
 
-    // Constructors, getters, setters
-    
-    
+	// Constructors, getters, setters
+
 }

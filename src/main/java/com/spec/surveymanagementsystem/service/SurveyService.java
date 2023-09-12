@@ -3,6 +3,7 @@ package com.spec.surveymanagementsystem.service;
 import com.spec.surveymanagementsystem.dto.OptionDTO;
 import com.spec.surveymanagementsystem.dto.QuestionDTO;
 import com.spec.surveymanagementsystem.dto.SurveyDTO;
+import com.spec.surveymanagementsystem.exception.InvalidDataException;
 import com.spec.surveymanagementsystem.exception.ResourceNotFoundException;
 import com.spec.surveymanagementsystem.model.Organization;
 import com.spec.surveymanagementsystem.model.Question;
@@ -20,7 +21,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 @Service
 public class SurveyService {
@@ -41,13 +47,28 @@ public class SurveyService {
 	private QuestionOptionRepository questionOptionRepository;
 
 	@Transactional
-	public Survey createSurvey(SurveyDTO surveyDTO) throws ResourceNotFoundException {
+	public Survey createSurvey(@Valid SurveyDTO surveyDTO) throws ResourceNotFoundException {
+		if (surveyDTO == null) {
+			throw new InvalidDataException("Survey data is null");
+		}
+
+		if (surveyDTO.getTitle() == null || surveyDTO.getTitle().isEmpty()) {
+			throw new InvalidDataException("Survey title is required");
+		}
+
+		if (surveyDTO.getQuestions() == null || surveyDTO.getQuestions().isEmpty()) {
+			throw new InvalidDataException("At least one question is required");
+		}
+
+		// Get the organization from the database
 		Organization organization = organizationRepository.findById(surveyDTO.getOrganizationId())
 				.orElseThrow(() -> new ResourceNotFoundException("Organization not found"));
 
+		// Get the user who created the survey from the database
 		User createdByUser = UserRepository.findById(surveyDTO.getUserId())
 				.orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
+		// Create a new survey object
 		Survey survey = new Survey();
 		survey.setCreatedByUser(createdByUser);
 		survey.setTitle(surveyDTO.getTitle());
@@ -57,9 +78,15 @@ public class SurveyService {
 		survey.setSurveyLink(surveyDTO.getSurveyLink());
 		survey.setOrganization(organization);
 
-		survey = surveyRepository.save(survey);
+		// Save the survey to the database
+		surveyRepository.save(survey);
 
+		// Create a hashmap to store the questions and their corresponding objects
+		Map<QuestionDTO, Question> questionMap = new HashMap<>();
+
+		// Iterate over the questions in the surveyDTO
 		for (QuestionDTO questionDTO : surveyDTO.getQuestions()) {
+			// Create a new question object
 			Question question = new Question();
 			question.setSurvey(survey);
 			question.setTitle(questionDTO.getTitle());
@@ -67,9 +94,21 @@ public class SurveyService {
 			question.setRequired(questionDTO.isRequired());
 			question.setStatus(true); // Assuming all questions are active by default
 
-			question = questionRepository.save(question);
+			// Save the question to the database
+			questionRepository.save(question);
 
-			for (String optionText : questionDTO.getOptions()) {
+			// Add the question to the hashmap
+			questionMap.put(questionDTO, question);
+		}
+
+		// Iterate over the questions in the hashmap
+		for (Map.Entry<QuestionDTO, Question> entry : questionMap.entrySet()) {
+			QuestionDTO questionDTO = entry.getKey();
+			Question question = entry.getValue();
+
+			// Create a list of question options
+			List<QuestionOption> options = questionDTO.getOptions().stream().map(optionText -> {
+				// Create a new question option object
 				QuestionOption option = new QuestionOption();
 				option.setQuestion(question);
 				option.setOptionText(optionText);
@@ -77,9 +116,11 @@ public class SurveyService {
 				option.setCreatedBy(surveyDTO.getUserId());
 				option.setUpdatedAt(new Date());
 				option.setUpdatedBy(surveyDTO.getUserId());
+				return option;
+			}).collect(Collectors.toList());
 
-				questionOptionRepository.save(option);
-			}
+			// Save the question options to the database
+			questionOptionRepository.saveAll(options);
 		}
 
 		return survey;
@@ -141,10 +182,10 @@ public class SurveyService {
 	}
 
 	public void deleteSurvey(Long surveyId) {
-	    Survey survey = surveyRepository.findById(surveyId)
-	            .orElseThrow(() -> new ResourceNotFoundException("Survey not found"));
+		Survey survey = surveyRepository.findById(surveyId)
+				.orElseThrow(() -> new ResourceNotFoundException("Survey not found"));
 
-	    surveyRepository.delete(survey);
+		surveyRepository.delete(survey);
 	}
 
 	public Survey getSurveyById(Long surveyId) {

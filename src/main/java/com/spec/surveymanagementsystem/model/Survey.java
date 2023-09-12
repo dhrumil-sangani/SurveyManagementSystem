@@ -29,9 +29,9 @@ public class Survey {
 	@JoinColumn(name = "updated_by", referencedColumnName = "id", nullable = true)
 	private User updatedByUser;
 
-    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Question> questions = new ArrayList<>();
-	
+	@OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Question> questions = new ArrayList<>();
+
 	@Column(name = "title", nullable = false)
 	private String title;
 
@@ -122,7 +122,6 @@ public class Survey {
 		this.status = status;
 	}
 
-
 	public User getCreatedByUser() {
 		return createdByUser;
 	}
@@ -130,7 +129,6 @@ public class Survey {
 	public void setCreatedByUser(User createdByUser) {
 		this.createdByUser = createdByUser;
 	}
-
 
 	public User getUpdatedByUser() {
 		return updatedByUser;
@@ -143,6 +141,11 @@ public class Survey {
 	public Survey() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public Question[] getQuestions() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	// Constructors, getters, setters
