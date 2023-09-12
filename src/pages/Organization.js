@@ -30,7 +30,6 @@ const Organization = () => {
     async function getOrganizationData() {
       const response = await ApiCall("api/v1/organizations")
       setOrganizationData(response)
-      console.log(response,"res")
     }
     getOrganizationData();
   },[])

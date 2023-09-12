@@ -9,9 +9,17 @@ export const User = () => {
 
     const [userData,setUserData] = useState([]);
     const [showModal,setShowModal] = useState(false);
+    const [editData,setEditData] = useState([]);
+    const [isUpdate,setIsUpdate] = useState(false);
 
     const handleClose = () => {
-        setShowModal(false)
+        setShowModal(false);
+        setIsUpdate(false);
+    }
+
+    const getUser = async() => {
+        const response = await ApiCall("api/v1/users")
+        setUserData(response.data)
     }
 
     useEffect(()=>{
@@ -42,6 +50,12 @@ export const User = () => {
         });
     }
 
+    const editUser = (data) => {
+        setEditData(data);
+        setShowModal(true);
+        setIsUpdate(true);
+    }
+
     var columns = [
         {
           dataField: "name",
@@ -57,7 +71,6 @@ export const User = () => {
             dataField: "userStatus",
             text: "Status",
             formatter: (cell, row, rowIndex) => {
-                console.log(row)
                 return (
                   <div className='action-btns' >{row.status ? "Active" : "InActive"}</div>
                 );
@@ -68,7 +81,7 @@ export const User = () => {
             text: "Update",
             formatter: (cell, row, rowIndex) => {
               return (
-                <Button className="btn btn-warning">Update</Button>
+                <Button className="btn btn-warning" onClick={()=>editUser(row)}>Update</Button>
               );
             }
         },
@@ -93,7 +106,7 @@ export const User = () => {
         }
         {
             showModal && (
-                <ModalComponent showModal={showModal} handleClose={handleClose}/>
+                <ModalComponent showModal={showModal} getUser={getUser} oldData={editData} handleClose={handleClose} isUpdate={isUpdate}/>
             )
         }
         </main>

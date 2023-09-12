@@ -86,6 +86,44 @@ export const deleteAPICall = async (path) => {
     }
 }
 
+export const UpdateAPICall = async (path,pdata=null) => {
+    let response = null;
+    try {
+        const notify = (message,type) => {
+            if(type == "success")
+                toast.success(message);
+            else
+                toast.error(message);
+        }
+
+        var token = localStorage.getItem("token");
+        var url = environment.REACT_APP_API_URL + path;
+
+        const headers = {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        };
+
+        response = await axios.put(url ,pdata ,{ cache: 'no-cache',mode: 'no-cors',headers: headers});
+
+        const rdata = response.data;
+
+        if (rdata.status == 200) {
+            notify(rdata.message,"success")
+            return rdata
+        } else {
+            notify(rdata.message,"error")
+            return rdata
+        }
+
+    } catch (err) {
+        if (err && (err.response.data.status === 401 || err.response.data.status === 429)) {
+            localStorage.clear();
+            window.location.href = window.location.origin
+        }
+    }
+}
+
 // export const postRequest = async (path, data) => {
 //   let response = null;
 //   try {

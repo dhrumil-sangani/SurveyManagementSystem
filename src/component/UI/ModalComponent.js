@@ -4,6 +4,8 @@ import AddUser from '../Modal/AddUser';
 
 const ModalComponent = (props) => {
     var showModal = props?.showModal;
+    var isUpdate = props?.isUpdate;
+
     return (
         <Modal show={showModal} onHide={props.handleClose}>
             <Modal.Header closeButton>
@@ -12,7 +14,7 @@ const ModalComponent = (props) => {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <AddUser/>
+                <AddUser handleClose={props.handleClose} getUser={props.getUser} oldData={props.oldData} isUpdate={isUpdate}/>
             </Modal.Body>
         </Modal>
     )
