@@ -30,15 +30,15 @@ public class UserService {
     }
 	
     //  This service method use for create User
-	public User createUser(User dummyUser) {
+	public User createUser(User User) {
 		
-		dummyUser.setPassword(passwordEncoder.encode(dummyUser.getPassword()));
-		dummyUser.setStatus(dummyUser.getStatus());
+		User.setPassword(passwordEncoder.encode(User.getPassword()));
+		User.setStatus(User.getStatus());
 		Date date = new Date();  
 		Timestamp ts=new Timestamp(date.getTime());  
-		dummyUser.setCreatedAt(ts);
+		User.setCreatedAt(ts);
 		
-		return userRepository.save(dummyUser);
+		return userRepository.save(User);
 	}
 
 	//  This service method use for update User
@@ -47,11 +47,14 @@ public class UserService {
 	
 	      if (existingUserOptional.isPresent()) {
 	    	  User existingUser = existingUserOptional.get();
+	    	  
 	    	  existingUser.setName(updatedUser.getName());
+	    	  existingUser.setEmail(updatedUser.getEmail());
 	    	  existingUser.setMobileNumber(updatedUser.getMobileNumber());
 	    	  Date date = new Date();  
 	    	  Timestamp ts=new Timestamp(date.getTime());  
 	    	  existingUser.setUpdatedAt(ts);
+	    	  
 	          return Optional.of(userRepository.save(existingUser));
 	      } else {
 	          return Optional.empty(); // Indicate that the user was not found

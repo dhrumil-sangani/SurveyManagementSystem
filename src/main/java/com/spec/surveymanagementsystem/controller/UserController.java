@@ -47,11 +47,11 @@ public class UserController {
 
 	        // Create a success response
 	        RestResponse<User> response = new RestResponse<>();
-	        response.setStatus(HttpStatus.CREATED.value());
+	        response.setStatus(HttpStatus.OK.value());
 	        response.setMessage("User created successfully");
 	        response.setData(savedUser);
 
-	        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	        return ResponseEntity.status(HttpStatus.OK).body(response);
 	    } catch (Exception e) {
 	        // Handle exceptions
 	        return (ResponseEntity<RestResponse<User>>) handleException(e);
