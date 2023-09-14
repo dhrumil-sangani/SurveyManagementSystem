@@ -50,11 +50,11 @@ public class OrganizationController {
 
 	        // Create a success response
 	        RestResponse<Organization> response = new RestResponse<>();
-	        response.setStatus(HttpStatus.CREATED.value());
+	        response.setStatus(HttpStatus.OK.value());
 	        response.setMessage("Organization created successfully");
 	        response.setData(savedOrganization);
 
-	        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	        return ResponseEntity.status(HttpStatus.OK).body(response);
 	    } catch (Exception e) {
 	        // Handle exceptions
 	        return (ResponseEntity<RestResponse<Organization>>) handleException(e);

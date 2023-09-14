@@ -2,19 +2,21 @@ package com.spec.surveymanagementsystem.service;
 
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.spec.surveymanagementsystem.model.User;
-import com.spec.surveymanagementsystem.model.Organization;
 import com.spec.surveymanagementsystem.repository.UserRepository;
 
 @Service
 public class UserService {
 	private List<User> store = new ArrayList<>();
-	
+	 
 	@Autowired
 	private UserRepository userRepository;
 	
@@ -26,7 +28,16 @@ public class UserService {
 	 * This method use for get all user
 	 */
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	String loggedInUsername = authentication.getName();
+    	
+        List<User> allUsers = userRepository.findAll();
+        
+        List<User> usersExceptLoggedIn = allUsers.stream()
+        	    .filter(user -> !user.getUsername().equals(loggedInUsername))
+        	    .collect(Collectors.toList());
+        
+        return usersExceptLoggedIn;
     }
 	
     //  This service method use for create User
@@ -51,6 +62,7 @@ public class UserService {
 	    	  existingUser.setName(updatedUser.getName());
 	    	  existingUser.setEmail(updatedUser.getEmail());
 	    	  existingUser.setMobileNumber(updatedUser.getMobileNumber());
+	    	  
 	    	  Date date = new Date();  
 	    	  Timestamp ts=new Timestamp(date.getTime());  
 	    	  existingUser.setUpdatedAt(ts);

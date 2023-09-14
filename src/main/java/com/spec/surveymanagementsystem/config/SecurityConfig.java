@@ -45,6 +45,7 @@ public class SecurityConfig {
 	    	.authorizeHttpRequests(auth->auth.requestMatchers("/api/v1/**")
 	    			.authenticated()
 	    			.requestMatchers("/auth/login").permitAll().anyRequest().authenticated())
+	    	.logout((logout) -> logout.logoutUrl("/logout"))
 	    	.exceptionHandling(ex->ex.authenticationEntryPoint(jwtAuthenticationEntryPoint()))
 	    	.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
        

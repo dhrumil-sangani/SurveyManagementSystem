@@ -10,7 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint{
+public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint{ 
 	
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
