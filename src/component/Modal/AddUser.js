@@ -39,7 +39,6 @@ const AddUser = (props) => {
             if(isUpdate){
                 await UpdateAPICall(`api/v1/user/${oldData.id}`,values)
             } else {
-                values.role = 1;
                 await ApiCall("api/v1/create-user",values)
             }
             props.getUser();
@@ -97,7 +96,7 @@ const AddUser = (props) => {
                     Password
                 </Form.Label>
                 <Col sm="10">
-                    <Form.Control type="password" name="password" value={values.password} onChange={handleChange} placeholder="Password" />
+                    <Form.Control type="password" name="password" value={values.password} onChange={handleChange} readOnly={isUpdate?true:false} placeholder="Password" />
                     {errors.password && touched.password && (
                         <Form.Text className="text-danger">
                             {errors.password}
