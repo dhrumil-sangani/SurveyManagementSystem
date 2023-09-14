@@ -1,48 +1,110 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
+import TableComponent from '../component/UI/TableComponent';
+import { ApiCall, deleteAPICall } from '../ApiCall';
+import { Button } from 'react-bootstrap';
+import ModalComponent from '../component/UI/ModalComponent';
+import swal from 'sweetalert';
 
 const Organization = () => {
+
+  const [organizationData,setOrganizationData] = useState([]);
+  const [showModal,setShowModal] = useState(false);
+  const [isUpdate,setIsUpdate] = useState(false);
+  const [editData,setEditData] = useState([]);
+
+  const handleClose = () => {
+    setShowModal(false);
+    setIsUpdate(false);
+  }
+
+  const getOrganization = async() => {
+    const response = await ApiCall("api/v1/organizations")
+    setOrganizationData(response.data)
+  }
+
+  const deleteOrganization = (id) => {
+    swal({
+        title: "Are you sure, You want to Delete?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then(async(willDelete) => {
+        if (willDelete) {
+            const response = await deleteAPICall(`api/v1/organization/${id}`);
+            if(response.status == 200){
+                var data = organizationData.filter((user)=>{
+                    return user.id !== id
+                })
+                setOrganizationData(data)
+            }
+        } 
+    });
+  }
+
+  const editOrganization = (data) => {
+    setEditData(data);
+    setShowModal(true);
+    setIsUpdate(true);
+  }
+
+  var columns = [
+    {
+      dataField: "No",
+      text: "No",
+      formatter: (cell, row, rowIndex) => {
+        return (
+            <>{rowIndex+1}</>
+        );
+      }
+    },
+    {
+      dataField: "name",
+      text: "Name",
+      sort: true
+    },
+    {
+      dataField: "Update",
+      text: "Update",
+      formatter: (cell, row, rowIndex) => {
+        return (
+          <Button className="btn btn-warning" onClick={()=>editOrganization(row)}>Update</Button>
+        );
+      }
+    },
+    {
+      dataField: "Delete",
+      text: "Delete",
+      formatter: (cell, row, rowIndex) => {
+        return (
+          <Button className="btn btn-danger" onClick={()=>deleteOrganization(row.id)}>Delete</Button>
+        );
+      }
+    }
+  ];
+
+  useEffect(()=>{
+    async function getOrganizationData() {
+      const response = await ApiCall("api/v1/organizations")
+      setOrganizationData(response.data)
+    }
+    getOrganizationData();
+  },[])
+
   return (
-    <div class="container">
-        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-                        <div class="d-flex justify-content-center py-4">
-                            <a href="index.html" class="logo d-flex align-items-center w-auto">
-                                <img src="assets/img/logo.png" alt="" />
-                                <span class="d-none d-lg-block">Organization List</span>
-                            </a>
-                        </div>
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <div class="pt-4 pb-2">
-                                    <h5 class="card-title text-center pb-0 fs-4">Create Organization</h5>
-                                </div>
-                                <form class="row g-3 needs-validation" novalidate>
-                                    <div class="col-12">
-                                        <label for="name" class="form-label">Organization Name</label>
-                                        <div class="input-group has-validation">
-                                        <input type="text" name="name" class="form-control" id="name" required />
-                                        <div class="invalid-feedback">Please enter your organization name.</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="yourdescription" class="form-label">Description</label>
-                                        <textarea type="text" name="description" class="form-control" id="description" required> </textarea>
-                                        <div class="invalid-feedback">Please enter description</div>
-                                    </div>
-                                    
-                                    <div class="col-12">
-                                        <button class="btn btn-primary w-100" type="submit">Submit</button>
-                                    </div>                        
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
+    <main id="main" className="main">
+      <Button onClick={()=>setShowModal(true)}>Add Organization</Button>
+      {
+        organizationData.length > 0 && (
+          <TableComponent columns={columns} rowData={organizationData}/>
+        )
+      }
+      {
+        showModal && (
+            <ModalComponent showModal={showModal} getOrganization={getOrganization} oldData={editData} handleClose={handleClose} isUpdate={isUpdate} type="Organization"/>
+        )
+      }
+    </main>
   )
 }
 

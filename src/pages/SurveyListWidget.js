@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getSurveyItems, createSurvey, deleteSurvey } from "../../services/WebDataService";
+import { getSurveyItems, createSurvey, deleteSurvey } from "../services/WebDataService";
 import { Link } from "react-router-dom";
 
 export function SurveyListWidget(props) {
