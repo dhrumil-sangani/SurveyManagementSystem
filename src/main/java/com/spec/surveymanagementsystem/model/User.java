@@ -1,28 +1,30 @@
 package com.spec.surveymanagementsystem.model;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+
 @Entity
 @Table(name = "users")
-
 public class User implements UserDetails {
-	public User() {
-		super();  
-	}
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,8 +60,27 @@ public class User implements UserDetails {
 
     @Column(name = "updated_by")
     private Long updatedBy;
+    
+	 /*
+		 * @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+		 * 
+		 * @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id",
+		 * referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name =
+		 * "role_id", referencedColumnName = "id") )
+		 */
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "user_roles",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
-	public User(Long id, String name, String email, String mobileNumber ,String password ,boolean status ,Timestamp createdAt, Long createdBy, Timestamp updatedAt, Long updatedBy) {
+    public User() {
+		super();  
+	}
+    
+	public User(Long id, String name, String email, String mobileNumber ,String password ,boolean status ,Timestamp createdAt, Long createdBy, Timestamp updatedAt, Long updatedBy, Set<Role> roles) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -71,6 +92,7 @@ public class User implements UserDetails {
 		this.createdBy = createdBy;
 		this.updatedAt = updatedAt;
 		this.updatedBy = updatedBy;
+		this.roles = roles;
 	}
 	
 	public Long getId() {
@@ -109,7 +131,13 @@ public class User implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
@@ -137,7 +165,6 @@ public class User implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
