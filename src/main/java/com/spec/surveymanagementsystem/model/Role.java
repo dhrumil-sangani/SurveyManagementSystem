@@ -28,7 +28,7 @@ public class Role {
 
     @Column(name = "updated_by")
     private Long updatedBy;
-
+        
     // Constructors, getters, setters
     public Role() {
     	super();
@@ -43,7 +43,7 @@ public class Role {
 		this.createdBy = createdBy;
 		this.updatedAt = updatedAt;
 		this.updatedBy = updatedBy;
-	}
+			}
 
 	public Long getId() {
 		return id;
