@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,21 +36,15 @@ public class Organization {
 	@Column(length = 400, nullable = false)
 	private String description;
 
-	@Column(columnDefinition = "DEFAULT '1' COMMENT '0 = Inactive, 1 = Active'", nullable = false)
+	@Column(columnDefinition = "boolean default false COMMENT '0 = Inactive, 1 = Active'", nullable = false)
 	private boolean status;
 
-	@Column(name = "created_at", columnDefinition = "TIMESTAMP")
+	@Column(name = "created_at")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdAt;
 
-	@ManyToOne
-	@JoinColumn(name = "created_by")
-	private User createdBy;
-
-	@Column(name = "updated_at", columnDefinition = "TIMESTAMP")
+	@Column(name = "updated_at")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date updatedAt;
-
-	@ManyToOne
-	@JoinColumn(name = "updated_by")
-	private User updatedBy;
 	
 }
