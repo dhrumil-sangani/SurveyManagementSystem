@@ -22,6 +22,7 @@ const DynamicForm = () => {
   };
 
   return (
+    <main id="main" className="main">
     <Formik
       initialValues={initialValues}
       onSubmit={values => {
@@ -108,6 +109,7 @@ const DynamicForm = () => {
         </form>
       )}
     </Formik>
+    </main>
   );
 };
 

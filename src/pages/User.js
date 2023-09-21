@@ -9,9 +9,17 @@ export const User = () => {
 
     const [userData,setUserData] = useState([]);
     const [showModal,setShowModal] = useState(false);
+    const [editData,setEditData] = useState([]);
+    const [isUpdate,setIsUpdate] = useState(false);
 
     const handleClose = () => {
-        setShowModal(false)
+        setShowModal(false);
+        setIsUpdate(false);
+    }
+
+    const getUser = async() => {
+        const response = await ApiCall("api/v1/users")
+        setUserData(response.data)
     }
 
     useEffect(()=>{
@@ -42,7 +50,22 @@ export const User = () => {
         });
     }
 
+    const editUser = (data) => {
+        setEditData(data);
+        setShowModal(true);
+        setIsUpdate(true);
+    }
+
     var columns = [
+        {
+            dataField: "No",
+            text: "No",
+            formatter: (cell, row, rowIndex) => {
+                return (
+                    <>{rowIndex+1}</>
+                );
+            }
+        },
         {
           dataField: "name",
           text: "Name",
@@ -57,18 +80,26 @@ export const User = () => {
             dataField: "userStatus",
             text: "Status",
             formatter: (cell, row, rowIndex) => {
-                console.log(row)
                 return (
                   <div className='action-btns' >{row.status ? "Active" : "InActive"}</div>
                 );
             }
         },
+        // {
+        //     dataField: "View",
+        //     text: "View",
+        //     formatter: (cell, row, rowIndex) => {
+        //       return (
+        //         <Button className="btn btn-success">View</Button>
+        //       );
+        //     }
+        // },
         {
             dataField: "Update",
             text: "Update",
             formatter: (cell, row, rowIndex) => {
               return (
-                <Button className="btn btn-warning">Update</Button>
+                <Button className="btn btn-warning" onClick={()=>editUser(row)}>Update</Button>
               );
             }
         },
@@ -85,17 +116,17 @@ export const User = () => {
 
     return (
         <main id="main" className="main">
-        <Button onClick={()=>setShowModal(true)}>Add User</Button>
-        {
-            userData.length > 0 && (
-                <TableComponent columns={columns} rowData={userData}/>
-            )
-        }
-        {
-            showModal && (
-                <ModalComponent showModal={showModal} handleClose={handleClose}/>
-            )
-        }
+            <Button onClick={()=>setShowModal(true)}>Add User</Button>
+            {
+                userData.length > 0 && (
+                    <TableComponent columns={columns} rowData={userData}/>
+                )
+            }
+            {
+                showModal && (
+                    <ModalComponent showModal={showModal} getUser={getUser} oldData={editData} handleClose={handleClose} isUpdate={isUpdate} type="User"/>
+                )
+            }
         </main>
     )
 }

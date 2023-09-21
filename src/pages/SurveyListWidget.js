@@ -55,11 +55,14 @@ export function SurveyListWidget(props) {
   }
 
   return (
-    <div className="survey-list">
-      <ul>{list}</ul>
-      <button className="add-btn" type="button" onClick={addNewSurvey}>
-        Add New Survey
-      </button>
-    </div>
+    <main id="main" className="main">
+      <div className="survey-list">
+        <ul>{list}</ul>
+        <button className="add-btn" type="button" onClick={addNewSurvey}>
+          Add New Survey
+        </button>
+      </div>
+    </main>
+
   );
 }

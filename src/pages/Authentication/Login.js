@@ -4,8 +4,8 @@ import { useFormik } from "formik";
 import { Form } from 'react-bootstrap';
 import { Link,useNavigate } from 'react-router-dom';
 
-import { ApiCall } from '../ApiCall';
-import { UserContext } from '../App';
+import { ApiCall } from '../../ApiCall';
+import { UserContext } from '../../App';
 
 const Login = () => {
 
@@ -38,6 +38,7 @@ const Login = () => {
             const response =await ApiCall("auth/login",values)
             localStorage.setItem("token", response.data.jwtToken);
             localStorage.setItem("user", JSON.stringify(response.data));
+            dispatch({type:"USERNAME",payload:response.data.user.name})
             dispatch({type: "USER",payload: response.data});
             navigate("/dashboard");
             resetForm();
