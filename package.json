@@ -23,6 +23,8 @@
     "reactstrap": "^9.2.0",
     "survey-core": "^1.9.104",
     "survey-creator-react": "^1.9.104",
+    "survey-react": "^1.9.109",
+    "survey-react-ui": "^1.9.109",
     "sweetalert": "^2.1.2",
     "web-vitals": "^2.1.4",
     "yup": "^1.2.0"

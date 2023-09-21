@@ -7,6 +7,7 @@ import SurveyForm from './pages/SurveyForm';
 import DynamicForm from './pages/DynamicForm';
 import { UserContext } from './App';
 import { User } from './pages/User';
+import SurveyCreate from './pages/CreateSurvey';
 
 const AppRoutes = () => {
   const { state, dispatch } = useContext(UserContext);
@@ -20,6 +21,8 @@ const AppRoutes = () => {
         <Route exact path="/login" element={<Login />}></Route>
         <Route exact path="/surveyForm" element={<SurveyForm />}></Route>
         <Route exact path="/createForm" element={<DynamicForm />} />
+        <Route exact path="/surveyCreate" element={<SurveyCreate />} />
+        
     </Routes>
   )
 }
