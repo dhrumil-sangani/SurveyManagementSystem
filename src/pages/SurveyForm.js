@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Drawer, Button, Table, Space } from "antd";
 import { LikeOutlined, PlusOutlined, EditOutlined, DeleteOutlined, UserAddOutlined } from "@ant-design/icons";
 import CustomGoogleForms from "../component/SurveyForm/CustomGoogleForms";
@@ -7,12 +7,12 @@ import CustomGoogleForms from "../component/SurveyForm/CustomGoogleForms";
 const SurveyForm = () => {
 
 
-  const navigate = useNavigate ();
+  const navigate = useNavigate();
 
   const redirectToCreateForm = () => {
     navigate("/createForm");
   };
-  
+
   const [open, setOpen] = useState(false);
 
   // Sample data for the DataTable
@@ -65,35 +65,37 @@ const SurveyForm = () => {
       key: "assign",
       width: 70,
       render: () => <Button type="primary" icon={<UserAddOutlined />} size="small"></Button>,
-      
+
     },
   ];
 
   return (
-    <div style={{ padding: "20px" }}>
-      <Button
-        type="primary"
-        icon={<LikeOutlined />}
-        onClick={() => setOpen(true)}
-        style={{ marginBottom: "20px" }}
-      >
-        Open Survey Form
-      </Button>
-      <Drawer
-        title="Survey"
-        placement="right"
-        onClose={() => setOpen(false)}
-        open={open}
-        width={400}
-      >
-        <CustomGoogleForms setOpen={setOpen} />
-      </Drawer>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-        <h3>Survey List</h3>
-        <Button type="primary" icon={<PlusOutlined />} onClick={redirectToCreateForm}>Create</Button>
+    <main id="main" className="main">
+      <div style={{ padding: "20px" }}>
+        <Button
+          type="primary"
+          icon={<LikeOutlined />}
+          onClick={() => setOpen(true)}
+          style={{ marginBottom: "20px" }}
+        >
+          Open Survey Form
+        </Button>
+        <Drawer
+          title="Survey"
+          placement="right"
+          onClose={() => setOpen(false)}
+          open={open}
+          width={400}
+        >
+          <CustomGoogleForms setOpen={setOpen} />
+        </Drawer>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+          <h3>Survey List</h3>
+          <Button type="primary" icon={<PlusOutlined />} onClick={redirectToCreateForm}>Create</Button>
+        </div>
+        <Table dataSource={dataSource} columns={columns} />
       </div>
-      <Table dataSource={dataSource} columns={columns} />
-    </div>
+    </main>
   );
 };
 
