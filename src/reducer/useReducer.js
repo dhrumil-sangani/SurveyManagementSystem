@@ -1,6 +1,6 @@
 export const initialState = {
     user : null,
-    userId : 0,
+    userName : "",
     isExpired : 0,
     token : ""
 }
@@ -9,8 +9,8 @@ export const reducer = (state=initialState,action) => {
     if(action.type === "USER"){
         return {...state,user : action.payload}
     }
-    if(action.type === "USER_ID"){
-        return {...state,userId : action.payload}
+    if(action.type === "USERNAME"){
+        return {...state,userName : action.payload}
     }
     return state
 }

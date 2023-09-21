@@ -18,6 +18,7 @@ function App() {
         var user = JSON.parse(localStorage.getItem("user"));
         if(user != null){
             dispatch({type: "USER",payload: JSON.stringify(user)});
+            dispatch({type: "USERNAME",payload: user.user.name})
         }
     },[])
 

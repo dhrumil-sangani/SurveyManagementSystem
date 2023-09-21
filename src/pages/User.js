@@ -58,6 +58,15 @@ export const User = () => {
 
     var columns = [
         {
+            dataField: "No",
+            text: "No",
+            formatter: (cell, row, rowIndex) => {
+                return (
+                    <>{rowIndex+1}</>
+                );
+            }
+        },
+        {
           dataField: "name",
           text: "Name",
           sort: true
@@ -76,6 +85,15 @@ export const User = () => {
                 );
             }
         },
+        // {
+        //     dataField: "View",
+        //     text: "View",
+        //     formatter: (cell, row, rowIndex) => {
+        //       return (
+        //         <Button className="btn btn-success">View</Button>
+        //       );
+        //     }
+        // },
         {
             dataField: "Update",
             text: "Update",
@@ -98,17 +116,17 @@ export const User = () => {
 
     return (
         <main id="main" className="main">
-        <Button onClick={()=>setShowModal(true)}>Add User</Button>
-        {
-            userData.length > 0 && (
-                <TableComponent columns={columns} rowData={userData}/>
-            )
-        }
-        {
-            showModal && (
-                <ModalComponent showModal={showModal} getUser={getUser} oldData={editData} handleClose={handleClose} isUpdate={isUpdate}/>
-            )
-        }
+            <Button onClick={()=>setShowModal(true)}>Add User</Button>
+            {
+                userData.length > 0 && (
+                    <TableComponent columns={columns} rowData={userData}/>
+                )
+            }
+            {
+                showModal && (
+                    <ModalComponent showModal={showModal} getUser={getUser} oldData={editData} handleClose={handleClose} isUpdate={isUpdate} type="User"/>
+                )
+            }
         </main>
     )
 }
