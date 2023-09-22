@@ -21,7 +21,7 @@ const AppRoutes = () => {
       <Route exact path="/user" element={<User />}></Route>
       <Route exact path="/surveyForm" element={<SurveyForm />}></Route>
       <Route exact path="/createForm" element={<DynamicForm />} />
-      <Route exact path="/Survey" element={<SurveyFillingForm />} />
+      <Route exact path="/Survey/:id" element={<SurveyFillingForm />} />
       <Route exact path="/login" element={<Login />}></Route>
       <Route exact path="/change-password" element={<ChangePassword />}></Route>
     </Routes>

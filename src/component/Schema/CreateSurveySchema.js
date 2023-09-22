@@ -5,7 +5,7 @@ const CreateSurveySchema = {
     {
       type: "dropdown",
       name: "question1",
-      title: "Pick a region...",
+      title: "What's Your Region?",
       isRequired: true,
       choices: [
         {
