@@ -27,7 +27,7 @@ import lombok.Setter;
 public class Organization {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@Column(length = 100, nullable = false)
@@ -36,7 +36,7 @@ public class Organization {
 	@Column(length = 400, nullable = false)
 	private String description;
 
-	@Column(columnDefinition = "boolean default false COMMENT '0 = Inactive, 1 = Active'", nullable = false)
+	@Column(columnDefinition = "boolean default true COMMENT '0 = Inactive, 1 = Active'", nullable = false)
 	private boolean status;
 
 	@Column(name = "created_at")

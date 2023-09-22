@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,15 +28,12 @@ import lombok.Setter;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	/*
-	 * @ManyToOne
-	 * 
-	 * @JoinColumn(name = "organization_id", nullable = true) private Organization
-	 * organizationId;
-	 */
+	@OneToOne
+	@JoinColumn(name = "organization_id", nullable = true)
+	private Organization organizationId;
 
 	@Column(name = "fist_name", length = 50, nullable = false)
 	private String firstName;
@@ -52,7 +50,7 @@ public class User {
 	@Column(name = "contact_numbner", length = 15, nullable = false)
 	private int contactNumber;
 
-	@Column(columnDefinition = "boolean default false COMMENT '0 = Inactive, 1 = Active'", nullable = false)
+	@Column(columnDefinition = "boolean default true COMMENT '0 = Inactive, 1 = Active'", nullable = false)
 	private boolean status;
 
 	@Column(name = "created_at")
