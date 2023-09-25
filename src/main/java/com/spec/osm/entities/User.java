@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -41,14 +40,14 @@ public class User {
 	@Column(name = "last_name", length = 50, nullable = false)
 	private String lastName;
 
-	@Column(unique = true, nullable = false)
+	@Column(unique = true)
 	private String email;
 
 	@Column(length = 255, nullable = false)
 	private String password;
 
-	@Column(name = "contact_numbner", length = 15, nullable = false)
-	private int contactNumber;
+	@Column(name = "contact_number", length = 15, nullable = false)
+	private long contactNumber;
 
 	@Column(columnDefinition = "boolean default true COMMENT '0 = Inactive, 1 = Active'", nullable = false)
 	private boolean status;
