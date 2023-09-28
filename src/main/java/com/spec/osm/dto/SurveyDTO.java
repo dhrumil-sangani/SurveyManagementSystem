@@ -11,9 +11,9 @@ import java.util.List;
 public class SurveyDTO {
 
     private Long SurveyId;
-    private Integer organizationId;
-    private Integer createdByUserId;
-    private Integer updatedByUserId;
+    private Long organizationId;
+    private Long createdByUserId;
+    private Long updatedByUserId;
     private String title;
     private String descriptions;
     private Date startDate;
