@@ -19,9 +19,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "surveys")
 public class Survey {
@@ -30,15 +36,15 @@ public class Survey {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "organization_id", referencedColumnName = "id")
 	private Organization organization;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "created_by", referencedColumnName = "id", nullable = true)
 	private User createdByUser;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "updated_by", referencedColumnName = "id", nullable = true)
 	private User updatedByUser;
 
@@ -51,13 +57,13 @@ public class Survey {
 	@Column(name = "descriptions", length = 500, columnDefinition = "text")
 	private String descriptions;
 
-	@Column(name = "start_date", nullable = false, columnDefinition = "DATE")
+		@Column(name = "start_date", nullable = false, columnDefinition = "DATE")
 	private Date startDate;
 
 	@Column(name = "expiration_date", nullable = false, columnDefinition = "DATE")
 	private Date expirationDate;
 
-	@Column(name = "survey_link", nullable = false)
+	@Column(name = "survey_link", nullable = true)
 	private String surveyLink;
 
 	@Column(name = "status", nullable = false)

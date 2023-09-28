@@ -1,5 +1,9 @@
 package com.spec.osm.repositories;
 
-public class SurveyResponseRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.spec.osm.entities.SurveyResponse;
+
+public interface SurveyResponseRepository extends JpaRepository<SurveyResponse, Long> {
 
 }
