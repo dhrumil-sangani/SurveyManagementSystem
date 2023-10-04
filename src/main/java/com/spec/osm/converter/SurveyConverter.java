@@ -30,6 +30,8 @@ public class SurveyConverter {
             questionDTOS.add(questionToQuestionDTO(question));
         }
 
+        surveyDTO.setQuestions(questionDTOS);
+
         return surveyDTO;
     }
 
@@ -98,12 +100,17 @@ public class SurveyConverter {
     }
 
     public Question questionDTOToQuestion(QuestionDTO questionDTO) {
+        List<Question> questions;
         Question question = new Question();
         question.setId(questionDTO.getQuestionId());
         question.setTitle(questionDTO.getQuestionTitle());
         question.setType(Question.QuestionType.valueOf(questionDTO.getQuestionType())); // Assuming QuestionType is an enum
-        question.setRequired(questionDTO.isRequired());
-        question.setActive(questionDTO.isActive());
+
+        question.setRequired(questionDTO.isRequired()); // Set isRequired based on QuestionDTO
+        question.setActive(questionDTO.isActive()); // Set isActive based on QuestionDTO
+
+        System.out.println("DTO isRequired: " + questionDTO.isRequired());
+        System.out.println("DTO isActive: " + questionDTO.isActive());
         question.setCreatedAt(questionDTO.getQuestionCreatedAt());
         question.setUpdatedAt(questionDTO.getQuestionUpdatedAt());
 
