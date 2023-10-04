@@ -1,9 +1,8 @@
 package com.spec.osm.dto;
 
-import com.spec.osm.entities.Organization;
-import com.spec.osm.entities.User;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,5 +18,6 @@ public class SurveyDTO {
     private Date startDate;
     private Date expirationDate;
     private boolean status;
-    private List<QuestionDTO> questions;
+    private List<QuestionDTO> questions = new ArrayList<>();
+
 }

@@ -18,7 +18,7 @@ public class Question {
     private int id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "survey_id", nullable = true)
+    @JoinColumn(name = "survey_id", nullable = false)
     private Survey survey;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -16,14 +16,14 @@ public class QuestionOption {
     private int id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "question_id", nullable = true)
+    @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
     @Column(name = "option_text", nullable = false, columnDefinition = "TEXT")
     private String optionText;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", nullable = true, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;
 
     @ManyToOne

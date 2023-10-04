@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,7 +42,7 @@ public class Survey {
 	private Organization organization;
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "created_by", referencedColumnName = "id", nullable = true)
+	@JoinColumn(name = "created_by", referencedColumnName = "id", nullable = false)
 	private User createdByUser;
 
 	@ManyToOne(cascade = CascadeType.ALL)
