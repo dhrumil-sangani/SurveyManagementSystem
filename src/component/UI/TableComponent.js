@@ -1,22 +1,41 @@
 import React from 'react'
-import Table from 'react-bootstrap/Table';
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
+import paginationFactory from "react-bootstrap-table2-paginator";
 
 const TableComponent = (props) => {
 
-  const rowData = props?.rowData;
-  const columns = props?.columns;
-  const type = props?.type;
-  const keyField = props?.keyField;
+    const rowData = props?.rowData;
+    const columns = props?.columns;
+    const type = props?.type;
+    const keyField = props?.keyField;
 
-  const { SearchBar } = Search;
+    const { SearchBar } = Search;
 
-  const ClearButton = (props) => {
-  }
+    const ClearButton = (props) => {
+    }
 
-  const rowClasses = (row,rowIndex) => {
-  }
+    const rowClasses = (row,rowIndex) => {
+    }
+
+    const pagination = paginationFactory({
+        page: 1,
+        sizePerPage: 10,
+        lastPageText: ">>",
+        firstPageText: "<<",
+        nextPageText: ">",
+        prePageText: "<",
+        showTotal: true,
+        alwaysShowAllBtns: true,
+        onPageChange: function (page, sizePerPage) {
+            // console.log("page", page);
+            // console.log("sizePerPage", sizePerPage);
+        },
+        onSizePerPageChange: function (page, sizePerPage) {
+            // console.log("page", page);
+            // console.log("sizePerPage", sizePerPage);
+        }
+    });
 
   return (
     <ToolkitProvider
@@ -38,14 +57,15 @@ const TableComponent = (props) => {
                   {...props.searchProps}
                   // clearAllFilter={clearAllFilter}
               /> 
-              <div className='table-responsive common-table'>
+              <div className='common-table'>
                   <BootstrapTable
-                  {...props.baseProps}
-                  noDataIndication="No record found"
-                  // striped
-                  rowClasses={rowClasses}
-                  hover
-                  condensed
+                        {...props.baseProps}
+                        noDataIndication="No record found"
+                        // striped
+                        rowClasses={rowClasses}
+                        hover
+                        condensed
+                        pagination={pagination}
                   />
               </div>
           </div>

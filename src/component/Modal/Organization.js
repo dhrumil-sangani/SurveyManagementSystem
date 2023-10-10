@@ -26,10 +26,12 @@ const Organization = (props) => {
         onSubmit: async (values, { resetForm }) => {
             values.status = 1;
             if(isUpdate){
-                await UpdateAPICall(`api/v1/organization/${oldData.id}`,values)
+                var response = await UpdateAPICall(`api/v1/organization/${oldData.id}`,values)
             } else {
-                await ApiCall("api/v1/organization",values)
+                var response = await ApiCall("api/v1/organization",values)
             }
+            if(response.status != 200)
+                return false;
             props.getOrganization();
             props.handleClose();
             resetForm();

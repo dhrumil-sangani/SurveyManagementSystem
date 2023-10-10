@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from 'react-toastify';
 import environment from "./environment";
+import moment from "moment";
 
 export const ApiCall = async (path, pdata=null,params=null,header=null) => {
     let response = null;
@@ -123,6 +124,10 @@ export const UpdateAPICall = async (path,pdata=null) => {
         }
     }
 }
+
+export const dateConverter =  (date) => {
+    return moment.utc(date).local().format("L")
+};
 
 // export const postRequest = async (path, data) => {
 //   let response = null;

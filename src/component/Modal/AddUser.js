@@ -23,6 +23,12 @@ const AddUser = (props) => {
             ),
     });
 
+    const userSchema1 = Yup.object({
+        name : Yup.string().required("Name is required").matches(/^[A-Za-z0-9 ]+$/, "Only Alphabets, Number and Space are allowed for this field"),
+        email: Yup.string().email("Email must be a valid email").required("Email is required"),
+        mobileNumber : Yup.string().max(10,"Mobile Number must be maximum of 10 digits").matches(/^\d+$/, 'Mobile Number field should have digits only').required("Mobile Number is required"),
+    });
+
     const initialValues = {
         name : isUpdate ? oldData.name : "",
         email : isUpdate ? oldData.email : "",
@@ -33,14 +39,16 @@ const AddUser = (props) => {
     const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
         initialValues: initialValues,
-        validationSchema: userSchema,
+        validationSchema: isUpdate ? userSchema1 : userSchema,
         onSubmit: async (values, { resetForm }) => {
             values.status = 1;
             if(isUpdate){
-                await UpdateAPICall(`api/v1/user/${oldData.id}`,values)
+                var response = await UpdateAPICall(`api/v1/user/${oldData.id}`,values)
             } else {
-                await ApiCall("api/v1/create-user",values)
+                var response = await ApiCall("api/v1/create-user",values);
             }
+            if(response.status != 200)
+                return false;
             props.getUser();
             props.handleClose();
             resetForm();

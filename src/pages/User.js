@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ApiCall,deleteAPICall } from '../ApiCall'
+import { ApiCall,deleteAPICall,dateConverter } from '../ApiCall'
 import TableComponent from '../component/UI/TableComponent';
 import swal from 'sweetalert';
 import { Button } from 'react-bootstrap';
@@ -41,10 +41,11 @@ export const User = () => {
             if (willDelete) {
                 const response = await deleteAPICall(`api/v1/user/${id}`);
                 if(response.status == 200){
-                    var data = userData.filter((user)=>{
-                        return user.id !== id
+                    setUserData((oldData)=>{
+                        return oldData.filter((user)=>{
+                            return user.id !== id;
+                        })
                     })
-                    setUserData(data)
                 }
             } 
         });
@@ -85,15 +86,16 @@ export const User = () => {
                 );
             }
         },
-        // {
-        //     dataField: "View",
-        //     text: "View",
-        //     formatter: (cell, row, rowIndex) => {
-        //       return (
-        //         <Button className="btn btn-success">View</Button>
-        //       );
-        //     }
-        // },
+        {
+            dataField: "createdAt",
+            text: "Created Date",
+            sort: true,
+            formatter: (cell, row, rowIndex) => {
+              return (
+                dateConverter(row.createdAt)
+              );
+            }
+        },
         {
             dataField: "Update",
             text: "Update",

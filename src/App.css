@@ -1299,3 +1299,35 @@ h6 {
 }
 
 /* Form Style END */
+
+.common-table {
+  margin-top: 10px;
+}
+main#main {
+  position: relative;
+}
+main#main > button {
+  position: absolute;
+  right: 28px;
+  top: 19px;
+}
+.react-bootstrap-table-pagination-list ul {
+  margin-left: auto;
+  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+td.react-bs-table-no-data {
+  text-align: center;
+}
+.profile .btn-primary:hover {
+  color: black;
+  background-color: white;
+  border: white;
+}
+.profile .btn-primary {
+  color: black;
+  background-color: white;
+  border: white;
+}
